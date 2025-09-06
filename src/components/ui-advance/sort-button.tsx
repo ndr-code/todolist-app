@@ -1,16 +1,16 @@
 'use client';
 
-import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
+import { ArrowUp, ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui-basic/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui-basic/dropdown-menu';
 
 export type SortOption = {
   value: string;
@@ -28,7 +28,7 @@ interface SortButtonProps {
   className?: string;
 }
 
-export function SortButton({
+export function SortButton1({
   options,
   currentSort,
   currentDirection,
@@ -53,8 +53,34 @@ export function SortButton({
   };
 
   const DirectionIcon = () => {
-    if (currentDirection === 'asc') return <ArrowUp className='h-3 w-3' />;
-    if (currentDirection === 'desc') return <ArrowDown className='h-3 w-3' />;
+    if (currentDirection === 'asc')
+      return (
+        <svg
+          width='12'
+          height='12'
+          viewBox='0 0 24 24'
+          fill='none'
+          className='h-3 w-3'
+        >
+          <rect x='2' y='17' width='20' height='2' rx='1' fill='currentColor' />
+          <rect x='5' y='11' width='14' height='2' rx='1' fill='currentColor' />
+          <rect x='8' y='5' width='8' height='2' rx='1' fill='currentColor' />
+        </svg>
+      );
+    if (currentDirection === 'desc')
+      return (
+        <svg
+          width='12'
+          height='12'
+          viewBox='0 0 24 24'
+          fill='none'
+          className='h-3 w-3'
+        >
+          <rect x='2' y='5' width='20' height='2' rx='1' fill='currentColor' />
+          <rect x='5' y='11' width='14' height='2' rx='1' fill='currentColor' />
+          <rect x='8' y='17' width='8' height='2' rx='1' fill='currentColor' />
+        </svg>
+      );
     return <ArrowUpDown className='h-3 w-3' />;
   };
 
@@ -62,8 +88,8 @@ export function SortButton({
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant='outline'
-          className={`flex items-center gap-2 ${className} w-32 justify-start`}
+          variant='sort'
+          className={`flex items-center gap-2 ${className} h-12 w-24 justify-start rounded-xl`}
         >
           <DirectionIcon />
           <span>{sortLabel}</span>
@@ -92,7 +118,7 @@ export function SortButton({
 }
 
 // Example usage component
-export function SortButtonExample() {
+export function SortButton() {
   const [currentSort, setCurrentSort] = useState('date');
   const [currentDirection, setCurrentDirection] =
     useState<SortDirection>('desc');
@@ -110,7 +136,7 @@ export function SortButtonExample() {
 
   return (
     <div className=''>
-      <SortButton
+      <SortButton1
         options={sortOptions}
         currentSort={currentSort}
         currentDirection={currentDirection}
