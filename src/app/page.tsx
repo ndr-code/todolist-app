@@ -1,15 +1,33 @@
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { SortButtonExample } from '@/components/ui/sort-button';
+import { ToggleButton } from '@/components/ui/toggle-button';
+
+import { description, title } from '@/constants/data';
 
 export default function Home() {
   return (
-    <div className='grid min-h-screen grid-rows-[40px_1fr_20px] items-center justify-items-center gap-10 bg-neutral-100 p-8 pb-20 sm:p-10'>
-      <div className='flex h-10 w-full items-center justify-center bg-neutral-200 text-center font-bold'>
-        Home
+    <div className='grid min-h-screen grid-rows-[80px_1fr_40px] items-start justify-items-center bg-neutral-100 px-95 py-10 dark:bg-neutral-900'>
+      <header className='mb-10 flex h-10 w-full items-center justify-center rounded-full bg-neutral-200 text-center font-bold dark:bg-neutral-800 dark:text-white'>
+        To Do List App
+      </header>
+      <div className='flex min-w-150 flex-col gap-6 py-6'>
+        <div className='flex items-center justify-between gap-4'>
+          <div>
+            <h1 className='display-sm-bold pb-2 font-bold dark:text-white'>
+              {title}
+            </h1>
+            <p className='text-gray-600 dark:text-gray-400'>{description}</p>
+          </div>
+          <ToggleButton />
+        </div>
+        <div className='flex flex-row gap-4'>
+          <Input placeholder='Search todos...' />
+          <SortButtonExample />
+        </div>
       </div>
-      <Button>Start</Button>
-      <div className='flex h-10 w-full items-center justify-center bg-neutral-200 text-center text-xs text-neutral-500'>
+      <footer className='flex h-10 w-full items-center justify-center text-center text-xs text-neutral-500 dark:text-neutral-400'>
         © 2025 ndr. All rights reserved.
-      </div>
+      </footer>
     </div>
   );
 }

@@ -13,8 +13,8 @@
 - [x] Konfigurasi Tailwind CSS
 - [x] Setup shadcn/ui
 - [x] Setup Redux Toolkit (store, slice untuk filter & UI state)
-- [ ] Setup TanStack Query (Provider, hooks dasar)
-- [ ] Setup Day.js
+- [x] Setup TanStack Query (Provider, hooks dasar)
+- [x] Setup Day.js
 
 ## Fitur Utama
 
