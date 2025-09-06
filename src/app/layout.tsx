@@ -1,12 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { clsx } from 'clsx';
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+
 import './globals.css';
-import { Provider } from 'react-redux';
-
-import { store } from '@/store/store';
-
+import { Providers } from '../providers/providers';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -28,11 +25,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={clsx(montserrat.variable, 'antialiased')}>
-        <Provider store={store}>
-          <QueryClientProvider client={new QueryClient()}>
-            {children}
-          </QueryClientProvider>
-        </Provider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
