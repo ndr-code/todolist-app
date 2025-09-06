@@ -1,16 +1,14 @@
 'use client';
 
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -65,17 +63,13 @@ export function SortButton({
       <DropdownMenuTrigger asChild>
         <Button
           variant='outline'
-          className={`flex items-center gap-2 ${className}`}
+          className={`flex items-center gap-2 ${className} w-32 justify-start`}
         >
-          <ArrowUpDown className='h-4 w-4' />
-          <span>{sortLabel}</span>
           <DirectionIcon />
-          <ChevronDown className='h-4 w-4' />
+          <span>{sortLabel}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-48'>
-        <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent align='end' className='w-32'>
         <DropdownMenuRadioGroup
           value={currentSort}
           onValueChange={handleSortSelect}
@@ -104,7 +98,7 @@ export function SortButtonExample() {
     useState<SortDirection>('desc');
 
   const sortOptions: SortOption[] = [
-    { value: 'date', label: 'Date Created' },
+    { value: 'date', label: 'Date' },
     { value: 'priority', label: 'Priority' },
   ];
 
@@ -115,7 +109,7 @@ export function SortButtonExample() {
   };
 
   return (
-    <div className='p-4'>
+    <div className=''>
       <SortButton
         options={sortOptions}
         currentSort={currentSort}
