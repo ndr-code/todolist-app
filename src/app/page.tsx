@@ -1,8 +1,6 @@
-import { Search } from 'lucide-react';
-
+import SearchBar from '@/components/ui-advance/searchbar';
 import { SortButton } from '@/components/ui-advance/sort-button';
-import { Input } from '@/components/ui-basic/input';
-import { ToggleButton } from '@/components/ui-basic/toggle-button';
+import { ToggleButton } from '@/components/ui-advance/toggle-button';
 
 import { description, title } from '@/constants/data';
 
@@ -23,10 +21,7 @@ export default function Home() {
           <ToggleButton />
         </div>
         <div className='flex flex-row gap-4'>
-          <div className='relative flex-1'>
-            <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
-            <Input placeholder='Search...' className='pl-10' />
-          </div>
+          <SearchBar />
           <SortButton />
         </div>
       </div>
