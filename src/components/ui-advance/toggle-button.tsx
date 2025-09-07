@@ -32,7 +32,7 @@ export function ToggleButton({ className = '' }: ToggleButtonProps) {
       {/* Toggle Container */}
       <div
         onClick={toggleDarkMode}
-        className='border-input dark:bg-input/30 dark:hover:bg-input/50 relative flex h-12 w-24 cursor-pointer items-center rounded-2xl border bg-neutral-300 p-1 transition-colors duration-300'
+        className='border-border relative flex h-12 w-24 cursor-pointer items-center rounded-2xl border bg-card p-1 transition-colors duration-300 shadow-sm'
       >
         {/* Light Mode Icon (Left) */}
         <div

@@ -8,8 +8,8 @@ import { description, title } from '@/constants/data';
 
 export default function Home() {
   return (
-    <div className='grid min-h-screen grid-rows-[80px_1fr_40px] items-start justify-items-center bg-neutral-100 py-10 dark:bg-neutral-900'>
-      <header className='mb-10 flex h-10 items-center justify-center rounded-full bg-neutral-300 px-20 text-center font-bold dark:bg-neutral-800 dark:text-white'>
+    <div className='bg-background dark:bg-background grid min-h-screen grid-rows-[80px_1fr_40px] items-start justify-items-center py-10'>
+      <header className='mb-10 flex h-10 items-center justify-center rounded-full bg-neutral-200 px-20 text-center font-bold dark:text-white'>
         To Do List App
       </header>
       <div className='flex w-full max-w-2xl min-w-150 flex-col gap-6 px-4 py-6'>

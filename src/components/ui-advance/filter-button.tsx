@@ -121,7 +121,7 @@ export function FilterButton1({
           <IoFilterOutline className='h-4 w-4' />
           <span>Filter</span>
           {activeFiltersCount > 0 && (
-            <span className='bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs'>
+            <span className='text-primary-foreground absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs'>
               {activeFiltersCount}
             </span>
           )}

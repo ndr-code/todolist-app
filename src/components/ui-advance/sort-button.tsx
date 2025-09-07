@@ -66,7 +66,7 @@ export function SortButton1({
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant='sort'
+          variant='outline'
           className={`flex items-center gap-2 ${className} h-12 w-24 justify-start rounded-xl`}
         >
           <DirectionIcon />

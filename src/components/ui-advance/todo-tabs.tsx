@@ -42,24 +42,24 @@ export function TodoTabs({
       onValueChange={handleTabChange}
       className={className}
     >
-      <TabsList className='grid h-14 w-full grid-cols-3 border border-neutral-300 bg-neutral-200 p-2'>
+      <TabsList className='bg-card border-border grid h-14 w-full grid-cols-3 border p-2 shadow-sm'>
         <TabsTrigger
           value='today'
-          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-10 items-center gap-2 font-medium'
+          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-9 items-center gap-2 font-medium'
         >
           <span>Today</span>
         </TabsTrigger>
 
         <TabsTrigger
           value='upcoming'
-          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-10 items-center gap-2 font-medium'
+          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-9 items-center gap-2 font-medium'
         >
           <span>Upcoming</span>
         </TabsTrigger>
 
         <TabsTrigger
           value='completed'
-          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-10 items-center gap-2 font-medium'
+          className='data-[state=active]:bg-primary-100 dark:data-[state=active]:bg-primary-100 data-[state=active]:text-primary-foreground text-sm-semibold flex h-9 items-center gap-2 font-medium'
         >
           <span>Completed</span>
         </TabsTrigger>
@@ -84,11 +84,12 @@ export function TodoTabs({
             <TodoCard key={todo.id} todo={todo} />
           ))}
         </div>
-
-        <Button className='mt-6 flex w-full items-center gap-2'>
-          <Plus className='h-4 w-4' />
-          Add Task
-        </Button>
+        <div className='flex w-full items-center justify-center'>
+          <Button className='h-12 w-75 gap-2'>
+            <Plus className='h-4 w-4' />
+            Add Task
+          </Button>
+        </div>
       </TabsContent>
 
       <TabsContent value='upcoming' className='mt-6 space-y-4'>
@@ -108,7 +109,7 @@ export function TodoTabs({
                 </span>
               </div>
             </div>
-            <div className='flex h-9 items-center justify-around gap-1 rounded-md border border-neutral-300 bg-white'>
+            <div className='border-border bg-card flex h-9 items-center justify-around gap-1 rounded-md border'>
               <button className='hover:bg-muted rounded p-1'>
                 <ChevronLeft className='h-5 w-5' />
               </button>
@@ -151,10 +152,12 @@ export function TodoTabs({
           ))}
         </div>
 
-        <Button className='mt-6 flex w-full items-center gap-2'>
-          <Plus className='h-4 w-4' />
-          Add Task
-        </Button>
+        <div className='flex w-full items-center justify-center'>
+          <Button className='h-12 w-75 gap-2'>
+            <Plus className='h-4 w-4' />
+            Add Task
+          </Button>
+        </div>
       </TabsContent>
 
       <TabsContent value='completed' className='mt-6 space-y-4'>
