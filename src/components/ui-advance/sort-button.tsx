@@ -1,14 +1,17 @@
 'use client';
 
-import { ArrowUp, ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
+import { BsSortUpAlt, BsSortDownAlt } from 'react-icons/bs';
 
 import { Button } from '@/components/ui-basic/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui-basic/dropdown-menu';
 
@@ -54,33 +57,8 @@ export function SortButton1({
 
   const DirectionIcon = () => {
     if (currentDirection === 'asc')
-      return (
-        <svg
-          width='12'
-          height='12'
-          viewBox='0 0 24 24'
-          fill='none'
-          className='h-3 w-3'
-        >
-          <rect x='2' y='17' width='20' height='2' rx='1' fill='currentColor' />
-          <rect x='5' y='11' width='14' height='2' rx='1' fill='currentColor' />
-          <rect x='8' y='5' width='8' height='2' rx='1' fill='currentColor' />
-        </svg>
-      );
-    if (currentDirection === 'desc')
-      return (
-        <svg
-          width='12'
-          height='12'
-          viewBox='0 0 24 24'
-          fill='none'
-          className='h-3 w-3'
-        >
-          <rect x='2' y='5' width='20' height='2' rx='1' fill='currentColor' />
-          <rect x='5' y='11' width='14' height='2' rx='1' fill='currentColor' />
-          <rect x='8' y='17' width='8' height='2' rx='1' fill='currentColor' />
-        </svg>
-      );
+      return <BsSortDownAlt className='h-3 w-3' />;
+    if (currentDirection === 'desc') return <BsSortUpAlt className='h-3 w-3' />;
     return <ArrowUpDown className='h-3 w-3' />;
   };
 
@@ -95,7 +73,9 @@ export function SortButton1({
           <span>{sortLabel}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-32'>
+      <DropdownMenuContent align='end' className='w-40'>
+        <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+        <DropdownMenuSeparator className='bg-border dark:bg-border' />
         <DropdownMenuRadioGroup
           value={currentSort}
           onValueChange={handleSortSelect}
