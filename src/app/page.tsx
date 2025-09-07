@@ -1,7 +1,7 @@
 import { FilterButton } from '@/components/ui-advance/filter-button';
 import SearchBar from '@/components/ui-advance/searchbar';
 import { SortButton } from '@/components/ui-advance/sort-button';
-import { TodoTabs } from '@/components/ui-advance/todo-tabs';
+import { TodoTabs } from '@/components/ui-advance/todo-tabs1';
 import { ToggleButton } from '@/components/ui-advance/toggle-button';
 
 import { description, title } from '@/constants/data';
