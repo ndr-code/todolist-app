@@ -1,6 +1,8 @@
-import { FilterButton } from '@/components/ui-advance/filter-button';
+'use client';
+
+import { FilterButton } from '@/components/ui-advance/filter-button-new';
 import SearchBar from '@/components/ui-advance/searchbar';
-import { SortButton } from '@/components/ui-advance/sort-button';
+import { SortButton } from '@/components/ui-advance/sort-button-new';
 import { TodoTabs } from '@/components/ui-advance/todo-tab';
 import { ToggleButton } from '@/components/ui-advance/toggle-button';
 

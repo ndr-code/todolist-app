@@ -32,7 +32,7 @@ export function ToggleButton({ className = '' }: ToggleButtonProps) {
       {/* Toggle Container */}
       <div
         onClick={toggleDarkMode}
-        className='border-border relative flex h-12 w-24 cursor-pointer items-center rounded-2xl border bg-card p-1 transition-colors duration-300 shadow-sm'
+        className='border-border bg-card relative flex h-12 w-24 cursor-pointer items-center rounded-2xl border p-1 shadow-sm transition-colors duration-300'
       >
         {/* Light Mode Icon (Left) */}
         <div
@@ -69,7 +69,7 @@ export function ToggleButton({ className = '' }: ToggleButtonProps) {
 
         {/* Moving Toggle Circle */}
         <div
-          className={`absolute top-1/2 z-20 h-8 w-8 -translate-y-1/2 rounded-lg bg-blue-600 shadow-lg transition-transform duration-300 ease-in-out ${
+          className={`bg-primary-100 absolute top-1/2 z-20 h-8 w-8 -translate-y-1/2 rounded-lg shadow-lg transition-transform duration-300 ease-in-out ${
             isDark ? 'translate-x-13' : 'translate-x-1'
           }`}
         >

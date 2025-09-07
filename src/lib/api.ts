@@ -21,6 +21,7 @@ interface FilterParams {
   priority?: 'LOW' | 'MEDIUM' | 'HIGH';
   dateGte?: string;
   dateLte?: string;
+  title?: string;
   sort?: 'id' | 'title' | 'completed' | 'date' | 'priority';
   order?: 'asc' | 'desc';
 }

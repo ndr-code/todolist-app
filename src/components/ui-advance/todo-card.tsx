@@ -8,14 +8,27 @@ import { Checkbox } from '../ui-basic/checkbox';
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'High':
+    case 'HIGH':
       return 'bg-accent-red text-white';
-    case 'Medium':
+    case 'MEDIUM':
       return 'bg-accent-yellow text-black';
-    case 'Low':
+    case 'LOW':
       return 'bg-accent-green text-white';
     default:
       return 'bg-gray-500 text-white';
+  }
+};
+
+const getPriorityLabel = (priority: string) => {
+  switch (priority) {
+    case 'HIGH':
+      return 'High';
+    case 'MEDIUM':
+      return 'Medium';
+    case 'LOW':
+      return 'Low';
+    default:
+      return priority;
   }
 };
 
@@ -35,11 +48,17 @@ export const TodoCard = ({
         {todo.title}
       </h3>
       <div className='mt-1 flex items-center gap-2'>
-        <span className='text-muted-foreground text-sm'>{todo.date}</span>
+        <span className='text-muted-foreground text-sm'>
+          {new Date(todo.date).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })}
+        </span>
         <span
           className={`mx-4 flex h-6 items-center justify-center rounded-md px-2 py-0.5 text-xs font-medium ${getPriorityColor(todo.priority)}`}
         >
-          {todo.priority}
+          {getPriorityLabel(todo.priority)}
         </span>
       </div>
     </div>

@@ -2,6 +2,6 @@ export interface TodoItem {
   id: string;
   title: string;
   date: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: 'LOW' | 'MEDIUM' | 'HIGH'; // Match API format
   completed: boolean;
 }

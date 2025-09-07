@@ -6,7 +6,7 @@ export const TodoSchema = z.object({
   id: z.string(),
   title: z.string(),
   completed: z.boolean(),
-  date: z.date(),
+  date: z.string(), // ISO 8601 string from API
   priority: PrioritySchema,
 });
 export type Todo = z.infer<typeof TodoSchema>;
