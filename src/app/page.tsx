@@ -3,7 +3,6 @@ import SearchBar from '@/components/ui-advance/searchbar';
 import { SortButton } from '@/components/ui-advance/sort-button';
 import { TodoTabs } from '@/components/ui-advance/todo-tabs';
 import { ToggleButton } from '@/components/ui-advance/toggle-button';
-import { Card } from '@/components/ui-basic/card';
 
 import { description, title } from '@/constants/data';
 
