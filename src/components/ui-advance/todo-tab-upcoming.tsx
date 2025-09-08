@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import React from 'react';
 
-import { useTodos } from '@/lib/hooks/useTodos';
+import { useTodos } from '@/hooks/useTodos';
 
 import { TodoCard } from './todo-card';
 import { Button } from '../ui-basic/button';

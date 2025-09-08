@@ -2,7 +2,7 @@
 
 import { MoreHorizontal } from 'lucide-react';
 
-import { useUpdateTodo } from '@/lib/hooks/useUpdateTodo';
+import { useUpdateTodo } from '@/hooks/useUpdateTodo';
 import { TodoItem } from '@/types/todoItem';
 
 import { Button } from '../ui-basic/button';

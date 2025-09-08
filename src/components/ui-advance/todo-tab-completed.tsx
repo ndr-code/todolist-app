@@ -3,7 +3,7 @@
 import { CheckCircle2 } from 'lucide-react';
 import React from 'react';
 
-import { useTodos } from '@/lib/hooks/useTodos';
+import { useTodos } from '@/hooks/useTodos';
 
 import { TodoCard } from './todo-card';
 

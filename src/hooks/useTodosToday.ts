@@ -24,6 +24,16 @@ export function useTodosToday() {
     params.dateGte = todayStart;
     params.dateLte = todayEnd;
 
+    // Completed filter
+    if (filterState.completed !== 'all') {
+      params.completed = filterState.completed === 'completed';
+    }
+
+    // Priority filter
+    if (filterState.priority !== 'all') {
+      params.priority = filterState.priority;
+    }
+
     // Include search text if present
     if (filterState.searchText) {
       params.title = filterState.searchText;
@@ -44,6 +54,8 @@ export function useTodosToday() {
     queryKey: [
       'todos-today',
       filterState.viewMode,
+      filterState.completed,
+      filterState.priority,
       filterState.searchText,
       filterState.sort,
       filterState.order,
@@ -61,6 +73,8 @@ export function useTodosToday() {
     queryKey: [
       'todos-today-scroll',
       filterState.viewMode,
+      filterState.completed,
+      filterState.priority,
       filterState.searchText,
       filterState.sort,
       filterState.order,

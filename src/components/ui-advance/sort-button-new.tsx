@@ -37,9 +37,12 @@ export function SortButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' className='gap-2 h-[47px]'>
+        <Button
+          variant='outline'
+          className='flex h-12 min-w-25 justify-center gap-2'
+        >
           {getSortIcon()}
-          Sort
+          <span>{sort === 'date' ? 'Date' : 'Priority'}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-48'>

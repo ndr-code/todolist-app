@@ -9,6 +9,7 @@ export type FilterState = {
   order: 'asc' | 'desc';
   viewMode: 'page' | 'scroll';
   searchText?: string;
+  showViewConfig: boolean;
 };
 
 const initialState: FilterState = {
@@ -17,6 +18,7 @@ const initialState: FilterState = {
   sort: 'date',
   order: 'asc',
   viewMode: 'page',
+  showViewConfig: false,
 };
 
 const filterSlice = createSlice({
@@ -47,6 +49,12 @@ const filterSlice = createSlice({
     setSearchText(state, action: PayloadAction<string | undefined>) {
       state.searchText = action.payload;
     },
+    setShowViewConfig(state, action: PayloadAction<boolean>) {
+      state.showViewConfig = action.payload;
+    },
+    toggleViewConfig(state) {
+      state.showViewConfig = !state.showViewConfig;
+    },
     resetFilter() {
       return initialState;
     },
@@ -62,6 +70,8 @@ export const {
   setOrder,
   setViewMode,
   setSearchText,
+  setShowViewConfig,
+  toggleViewConfig,
   resetFilter,
 } = filterSlice.actions;
 
