@@ -12,14 +12,41 @@ function TodoTabToday() {
   const { todos, isLoading, error } = useTodos();
 
   // Filter for today's todos (not completed)
-  const todayTodos =
-    todos.data?.todos?.filter((todo) => {
-      const today = new Date();
-      const todoDate = new Date(todo.date);
-      return (
-        !todo.completed && todoDate.toDateString() === today.toDateString()
-      );
-    }) || [];
+  const todayTodos = React.useMemo(() => {
+    if (!todos.data?.todos) return [];
+
+    const today = new Date();
+    const todayStr = today.toDateString();
+
+    return todos.data.todos.filter((todo) => {
+      // Skip completed todos
+      if (todo.completed) return false;
+
+      try {
+        // Try to parse the date - handle both ISO format and display format
+        let todoDate: Date;
+
+        if (todo.date.includes('T') || todo.date.includes('-')) {
+          // ISO format: "2025-09-08T10:00:00.000Z" or "2025-09-08"
+          todoDate = new Date(todo.date);
+        } else {
+          // Display format: "Aug 5, 2025"
+          todoDate = new Date(todo.date);
+        }
+
+        // Check if date is valid and matches today
+        if (isNaN(todoDate.getTime())) {
+          console.warn('Invalid date format:', todo.date);
+          return false;
+        }
+
+        return todoDate.toDateString() === todayStr;
+      } catch (err) {
+        console.warn('Error parsing date:', todo.date, err);
+        return false;
+      }
+    });
+  }, [todos.data?.todos]);
 
   if (isLoading) {
     return (

@@ -1,6 +1,12 @@
 import { Todo, NewTodo } from '@/types/todos';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+// Configuration for API usage
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+
+// Log which API URL we're using
+if (typeof window !== 'undefined') {
+  console.info('[api] API_BASE_URL:', API_BASE_URL);
+}
 
 // Types for API responses
 interface TodosResponse {
@@ -36,21 +42,27 @@ interface ScrollParams extends FilterParams {
   limit?: number;
 }
 
+async function safeFetch<T>(
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<T> {
+  const res = await fetch(input, init);
+  if (!res.ok) throw new Error(`Network response was not ok: ${res.status}`);
+  return (await res.json()) as T;
+}
+
 // GET /todos - Paginated
 export async function fetchTodos(
   params: PaginationParams = {}
 ): Promise<TodosResponse> {
   const searchParams = new URLSearchParams();
-
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined) {
-      searchParams.append(key, value.toString());
-    }
+    if (value !== undefined) searchParams.append(key, value.toString());
   });
 
-  const res = await fetch(`${API_BASE_URL}/todos?${searchParams}`);
-  if (!res.ok) throw new Error('Failed to fetch todos');
-  return res.json();
+  return await safeFetch<TodosResponse>(
+    `${API_BASE_URL}/todos?${searchParams}`
+  );
 }
 
 // GET /todos/scroll - Infinite scroll
@@ -58,30 +70,22 @@ export async function fetchTodosScroll(
   params: ScrollParams = {}
 ): Promise<TodosScrollResponse> {
   const searchParams = new URLSearchParams();
-
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined) {
-      searchParams.append(key, value.toString());
-    }
+    if (value !== undefined) searchParams.append(key, value.toString());
   });
 
-  const res = await fetch(`${API_BASE_URL}/todos/scroll?${searchParams}`);
-  if (!res.ok) throw new Error('Failed to fetch todos (scroll)');
-  return res.json();
+  return await safeFetch<TodosScrollResponse>(
+    `${API_BASE_URL}/todos/scroll?${searchParams}`
+  );
 }
 
 // POST /todos - Create todo
 export async function createTodo(newTodo: NewTodo): Promise<Todo> {
-  const res = await fetch(`${API_BASE_URL}/todos`, {
+  return await safeFetch<Todo>(`${API_BASE_URL}/todos`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newTodo),
   });
-
-  if (!res.ok) throw new Error('Failed to create todo');
-  return res.json();
 }
 
 // PUT /todos/:id - Update todo
@@ -89,30 +93,16 @@ export async function updateTodo(
   id: string,
   updatedTodo: Partial<Todo>
 ): Promise<Todo> {
-  const res = await fetch(`${API_BASE_URL}/todos/${id}`, {
+  return await safeFetch<Todo>(`${API_BASE_URL}/todos/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatedTodo),
   });
-
-  if (!res.ok) {
-    if (res.status === 404) throw new Error('Todo not found');
-    throw new Error('Failed to update todo');
-  }
-  return res.json();
 }
 
 // DELETE /todos/:id - Delete todo
 export async function deleteTodo(id: string): Promise<Todo> {
-  const res = await fetch(`${API_BASE_URL}/todos/${id}`, {
+  return await safeFetch<Todo>(`${API_BASE_URL}/todos/${id}`, {
     method: 'DELETE',
   });
-
-  if (!res.ok) {
-    if (res.status === 404) throw new Error('Todo not found');
-    throw new Error('Failed to delete todo');
-  }
-  return res.json();
 }

@@ -37,7 +37,7 @@ export function SortButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' className='gap-2'>
+        <Button variant='outline' className='gap-2 h-[47px]'>
           {getSortIcon()}
           Sort
         </Button>

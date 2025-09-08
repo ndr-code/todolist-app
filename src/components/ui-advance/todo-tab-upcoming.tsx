@@ -1,12 +1,66 @@
+'use client';
+
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import React from 'react';
 
-import { mockTodos, completedTodos } from '@/constants/mockTodos';
+import { useTodos } from '@/lib/hooks/useTodos';
 
 import { TodoCard } from './todo-card';
 import { Button } from '../ui-basic/button';
 
 function TodoTabUpcoming() {
+  const { todos, isLoading, error } = useTodos();
+
+  // Filter for upcoming todos (not completed and not today)
+  const upcomingTodos = React.useMemo(() => {
+    if (!todos.data?.todos) return [];
+
+    const today = new Date();
+    const todayStr = today.toDateString();
+
+    return todos.data.todos.filter((todo) => {
+      // Skip completed todos
+      if (todo.completed) return false;
+
+      try {
+        let todoDate: Date;
+
+        if (todo.date.includes('T') || todo.date.includes('-')) {
+          todoDate = new Date(todo.date);
+        } else {
+          todoDate = new Date(todo.date);
+        }
+
+        if (isNaN(todoDate.getTime())) {
+          console.warn('Invalid date format:', todo.date);
+          return false;
+        }
+
+        // Return todos that are after today
+        return todoDate.toDateString() !== todayStr && todoDate > today;
+      } catch (err) {
+        console.warn('Error parsing date:', todo.date, err);
+        return false;
+      }
+    });
+  }, [todos.data?.todos]);
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-muted-foreground'>Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-destructive'>Error loading todos</div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className='flex items-center justify-between'>
@@ -15,12 +69,12 @@ function TodoTabUpcoming() {
             <div className='flex items-center gap-2'>
               <h2 className='text-foreground display-xs-bold'>Upcoming</h2>
               <span className='text-muted-foreground text-xs-semibold ml-2 rounded-full bg-neutral-400 px-3'>
-                {completedTodos.length}{' '}
-                {completedTodos.length > 1 ? 'items' : 'item'}
+                {upcomingTodos.length}{' '}
+                {upcomingTodos.length === 1 ? 'item' : 'items'}
               </span>
             </div>
             <div className='mt-1 flex items-center gap-2'>
-              <span className='text-muted-foreground text-sm'>Aug 5, 2025</span>
+              <span className='text-muted-foreground text-sm'>Next 7 days</span>
             </div>
           </div>
           <div className='border-border bg-card flex h-9 items-center justify-around gap-1 rounded-md border px-1'>
@@ -63,9 +117,13 @@ function TodoTabUpcoming() {
       </div>
 
       <div className='space-y-3'>
-        {mockTodos.map((todo) => (
-          <TodoCard key={todo.id} todo={todo} />
-        ))}
+        {upcomingTodos.length === 0 ? (
+          <div className='py-8 text-center'>
+            <p className='text-muted-foreground'>No upcoming todos</p>
+          </div>
+        ) : (
+          upcomingTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+        )}
       </div>
 
       <div className='mt-8 flex w-full items-center justify-center'>
