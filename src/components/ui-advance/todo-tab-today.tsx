@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 import { useTodosToday } from '@/lib/hooks/useTodosToday';
