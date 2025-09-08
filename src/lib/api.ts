@@ -2,10 +2,12 @@ import { Todo, NewTodo } from '@/types/todos';
 
 // Configuration for API usage
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 // Log which API URL we're using
 if (typeof window !== 'undefined') {
   console.info('[api] API_BASE_URL:', API_BASE_URL);
+  console.info('[api] API_KEY configured:', !!API_KEY);
 }
 
 // Types for API responses
@@ -46,7 +48,23 @@ async function safeFetch<T>(
   input: RequestInfo,
   init?: RequestInit
 ): Promise<T> {
-  const res = await fetch(input, init);
+  // Prepare headers with API key
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...((init?.headers as Record<string, string>) || {}),
+  };
+
+  // Add API key if available
+  if (API_KEY) {
+    headers['api-key'] = API_KEY;
+  }
+
+  const requestInit: RequestInit = {
+    ...init,
+    headers,
+  };
+
+  const res = await fetch(input, requestInit);
   if (!res.ok) throw new Error(`Network response was not ok: ${res.status}`);
   return (await res.json()) as T;
 }
@@ -83,7 +101,6 @@ export async function fetchTodosScroll(
 export async function createTodo(newTodo: NewTodo): Promise<Todo> {
   return await safeFetch<Todo>(`${API_BASE_URL}/todos`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newTodo),
   });
 }
@@ -95,7 +112,6 @@ export async function updateTodo(
 ): Promise<Todo> {
   return await safeFetch<Todo>(`${API_BASE_URL}/todos/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatedTodo),
   });
 }
