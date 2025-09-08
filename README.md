@@ -1,3 +1,2 @@
-<!-- .env.local -->
-
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=https://be-todolist.vercel.app
+NEXT_PUBLIC_API_KEY=0ICVyrNhPL560sSQqv--y42PhSQvYcPm6Vz26j4blNI

@@ -1,7 +1,7 @@
 import { Todo, NewTodo } from '@/types/todos';
 
 // Configuration for API usage
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 // Log which API URL we're using

@@ -16,48 +16,84 @@ function SearchResult() {
   const { searchText, viewMode } = filterState;
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  // Transform Redux state to API params for search
-  const getSearchApiParams = React.useCallback(() => {
-    const params: any = {};
-
-    // Always include search text for SearchResult
-    if (searchText) {
-      params.title = searchText;
-    }
-
-    // Include other filters
-    if (filterState.completed !== 'all') {
-      params.completed = filterState.completed === 'completed';
-    }
-
-    if (filterState.priority !== 'all') {
-      params.priority = filterState.priority;
-    }
-
-    if (filterState.dateGte) {
-      params.dateGte = filterState.dateGte;
-    }
-    if (filterState.dateLte) {
-      params.dateLte = filterState.dateLte;
-    }
-
-    // Sort
-    params.sort = filterState.sort;
-    params.order = filterState.order;
-
-    return params;
-  }, [searchText, filterState]);
-
-  // Dedicated search queries
+  // Dedicated search queries - always fetch all todos and filter client-side for better reliability
   const searchQuery = useQuery({
-    queryKey: ['search-todos', filterState],
-    queryFn: () => fetchTodos(getSearchApiParams()),
+    queryKey: [
+      'search-todos',
+      searchText,
+      filterState.completed,
+      filterState.priority,
+      filterState.sort,
+      filterState.order,
+    ],
+    queryFn: () => {
+      const params: any = {};
+
+      // Include search text in API call
+      if (searchText) {
+        params.title = searchText;
+      }
+
+      if (filterState.completed !== 'all') {
+        params.completed = filterState.completed === 'completed';
+      }
+
+      if (filterState.priority !== 'all') {
+        params.priority = filterState.priority;
+      }
+
+      if (filterState.dateGte) {
+        params.dateGte = filterState.dateGte;
+      }
+      if (filterState.dateLte) {
+        params.dateLte = filterState.dateLte;
+      }
+
+      params.sort = filterState.sort;
+      params.order = filterState.order;
+
+      return fetchTodos(params);
+    },
     enabled: !!searchText && viewMode === 'page',
   });
 
   const searchScrollQuery = useQuery({
-    queryKey: ['search-todos-scroll', filterState],
-    queryFn: () => fetchTodosScroll(getSearchApiParams()),
+    queryKey: [
+      'search-todos-scroll',
+      searchText,
+      filterState.completed,
+      filterState.priority,
+      filterState.sort,
+      filterState.order,
+    ],
+    queryFn: () => {
+      const params: any = {};
+
+      // Include search text in API call
+      if (searchText) {
+        params.title = searchText;
+      }
+
+      if (filterState.completed !== 'all') {
+        params.completed = filterState.completed === 'completed';
+      }
+
+      if (filterState.priority !== 'all') {
+        params.priority = filterState.priority;
+      }
+
+      if (filterState.dateGte) {
+        params.dateGte = filterState.dateGte;
+      }
+      if (filterState.dateLte) {
+        params.dateLte = filterState.dateLte;
+      }
+
+      params.sort = filterState.sort;
+      params.order = filterState.order;
+
+      return fetchTodosScroll(params);
+    },
     enabled: !!searchText && viewMode === 'scroll',
   });
 
@@ -69,8 +105,7 @@ function SearchResult() {
 
   // Memoize todos data to prevent re-renders
   const allTodos = React.useMemo(() => {
-    const todosData = todos.data?.todos || [];
-    return todosData;
+    return todos.data?.todos || [];
   }, [todos.data?.todos]);
 
   // For pagination mode, handle client-side pagination
