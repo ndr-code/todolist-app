@@ -46,12 +46,12 @@ export const TodoCard = ({ todo }: { todo: TodoItem }) => {
   };
 
   return (
-    <Card className='!bg-card !border-border hover:!bg-muted/30 !flex cursor-pointer !flex-row !items-center !gap-3 !rounded-2xl !border !p-4 !transition-all !duration-300 !ease-in-out hover:!shadow-md'>
+    <Card className='!bg-card !border-border hover:!bg-muted/30 !flex !flex-row !items-center !gap-3 !rounded-2xl !border !p-4 !transition-all !duration-300 !ease-in-out hover:!shadow-md'>
       <Checkbox
         checked={todo.completed}
         onCheckedChange={handleCheckboxChange}
         disabled={updateTodoMutation.isPending}
-        className='mr-2 h-6 w-6'
+        className='mr-2 h-6 w-6 cursor-pointer'
       />
       <div className='flex-1'>
         <h3

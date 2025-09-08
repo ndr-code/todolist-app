@@ -1,52 +1,49 @@
 'use client';
 
-import { Plus } from 'lucide-react';
+import { Plus, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import React from 'react';
 
-import { useTodos } from '@/lib/hooks/useTodos';
+import { useTodosToday } from '@/lib/hooks/useTodosToday';
 
 import { TodoCard } from './todo-card';
 import { Button } from '../ui-basic/button';
 
 function TodoTabToday() {
-  const { todos, isLoading, error } = useTodos();
+  const { todos, isLoading, error, viewMode } = useTodosToday();
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-  // Filter for today's todos (not completed)
-  const todayTodos = React.useMemo(() => {
-    if (!todos.data?.todos) return [];
-
-    const today = new Date();
-    const todayStr = today.toDateString();
-
-    return todos.data.todos.filter((todo) => {
-      // Skip completed todos
-      if (todo.completed) return false;
-
-      try {
-        // Try to parse the date - handle both ISO format and display format
-        let todoDate: Date;
-
-        if (todo.date.includes('T') || todo.date.includes('-')) {
-          // ISO format: "2025-09-08T10:00:00.000Z" or "2025-09-08"
-          todoDate = new Date(todo.date);
-        } else {
-          // Display format: "Aug 5, 2025"
-          todoDate = new Date(todo.date);
-        }
-
-        // Check if date is valid and matches today
-        if (isNaN(todoDate.getTime())) {
-          console.warn('Invalid date format:', todo.date);
-          return false;
-        }
-
-        return todoDate.toDateString() === todayStr;
-      } catch (err) {
-        console.warn('Error parsing date:', todo.date, err);
-        return false;
-      }
-    });
+  // Memoize todos data to prevent re-renders
+  const allTodos = React.useMemo(() => {
+    return todos.data?.todos || [];
   }, [todos.data?.todos]);
+
+  // For pagination mode, handle client-side pagination
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(allTodos.length / itemsPerPage);
+
+  const paginatedTodos = React.useMemo(() => {
+    if (viewMode === 'scroll') {
+      // For infinite scroll, show all todos
+      return allTodos;
+    } else {
+      // For pagination, show current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      return allTodos.slice(startIndex, startIndex + itemsPerPage);
+    }
+  }, [allTodos, currentPage, viewMode]);
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(1, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+  };
+
+  // Reset page when switching view modes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [viewMode]);
 
   if (isLoading) {
     return (
@@ -71,7 +68,7 @@ function TodoTabToday() {
           <div className='flex items-center gap-2'>
             <h2 className='text-foreground display-xs-bold'>Today</h2>
             <span className='text-muted-foreground text-xs-semibold ml-2 rounded-full bg-neutral-400 px-3'>
-              {todayTodos.length} {todayTodos.length === 1 ? 'item' : 'items'}
+              {allTodos.length} {allTodos.length === 1 ? 'item' : 'items'}
             </span>
           </div>
           <p className='text-muted-foreground text-sm'>
@@ -85,14 +82,46 @@ function TodoTabToday() {
       </div>
 
       <div className='mt-4 space-y-3'>
-        {todayTodos.length === 0 ? (
+        {paginatedTodos.length === 0 ? (
           <div className='py-8 text-center'>
             <p className='text-muted-foreground'>No todos for today</p>
           </div>
         ) : (
-          todayTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+          paginatedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
         )}
       </div>
+
+      {/* Pagination Controls - only show in pagination mode */}
+      {viewMode === 'page' && totalPages > 1 && (
+        <div className='mt-6 flex items-center justify-center gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className='flex items-center gap-1'
+          >
+            <ChevronLeft className='h-4 w-4' />
+            Previous
+          </Button>
+
+          <span className='text-muted-foreground px-3 text-sm'>
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className='flex items-center gap-1'
+          >
+            Next
+            <ChevronRight className='h-4 w-4' />
+          </Button>
+        </div>
+      )}
+
       <div className='mt-8 flex w-full items-center justify-center'>
         <Button className='h-12 w-75 gap-2'>
           <Plus className='h-4 w-4' />

@@ -1,6 +1,7 @@
 'use client';
 
 import { FilterButton } from '@/components/ui-advance/filter-button-new';
+import ScrollToggleButton from '@/components/ui-advance/scroll-toggle-button';
 import SearchBar from '@/components/ui-advance/searchbar';
 import { SortButton } from '@/components/ui-advance/sort-button-new';
 import { TodoTabs } from '@/components/ui-advance/todo-tab';
@@ -25,6 +26,7 @@ export default function Home() {
           <SearchBar />
           <FilterButton />
           <SortButton />
+          <ScrollToggleButton />
         </div>
         <TodoTabs />
       </div>
