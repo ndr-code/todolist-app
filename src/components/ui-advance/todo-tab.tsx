@@ -64,17 +64,11 @@ export function TodoTabs({
           <span>Today</span>
         </TabsTrigger>
 
-        <TabsTrigger
-          value='upcoming'
-          className={getTabTriggerClassName()}
-        >
+        <TabsTrigger value='upcoming' className={getTabTriggerClassName()}>
           <span>Upcoming</span>
         </TabsTrigger>
 
-        <TabsTrigger
-          value='completed'
-          className={getTabTriggerClassName()}
-        >
+        <TabsTrigger value='completed' className={getTabTriggerClassName()}>
           <span>Completed</span>
         </TabsTrigger>
       </TabsList>
@@ -90,7 +84,7 @@ export function TodoTabs({
           </TabsContent>
 
           <TabsContent value='completed' className='mt-6 space-y-4'>
-            <TodoTabCompleted />
+            <TodoTabCompleted isActive={activeTab === 'completed'} />
           </TabsContent>
         </>
       )}

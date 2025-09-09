@@ -1,11 +1,12 @@
 'use client';
 
-import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import React from 'react';
 
 import { useTodosToday } from '@/hooks/useTodosToday';
 
 import { TodoCard } from './todo-card';
+import TodosPagination from './todos-pagination';
 import { Button } from '../ui-basic/button';
 
 function TodoTabToday() {
@@ -83,34 +84,14 @@ function TodoTabToday() {
 
       <div className='mt-4 space-y-3'>
         {/* Pagination Controls - Top */}
-        {viewMode === 'page' && totalPages > 1 && (
-          <div className='mb-4 flex items-center justify-center gap-2'>
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className='flex items-center gap-1'
-            >
-              <ChevronLeft className='h-4 w-4' />
-              Previous
-            </Button>
-
-            <span className='text-muted-foreground px-3 text-sm'>
-              Page {currentPage} of {totalPages}
-            </span>
-
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className='flex items-center gap-1'
-            >
-              Next
-              <ChevronRight className='h-4 w-4' />
-            </Button>
-          </div>
+        {viewMode === 'page' && (
+          <TodosPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrevPage={handlePrevPage}
+            onNextPage={handleNextPage}
+            className='mb-4'
+          />
         )}
 
         {paginatedTodos.length === 0 ? (
@@ -122,35 +103,18 @@ function TodoTabToday() {
         )}
       </div>
 
-      {/* Pagination Controls - only show in pagination mode */}
-      {viewMode === 'page' && totalPages > 1 && (
-        <div className='mt-6 flex items-center justify-center gap-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            className='flex items-center gap-1'
-          >
-            <ChevronLeft className='h-4 w-4' />
-            Previous
-          </Button>
-
-          <span className='text-muted-foreground px-3 text-sm'>
-            Page {currentPage} of {totalPages}
-          </span>
-
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className='flex items-center gap-1'
-          >
-            Next
-            <ChevronRight className='h-4 w-4' />
-          </Button>
-        </div>
+      {/* Pagination Controls - Bottom */}
+      {viewMode === 'page' && (
+        <TodosPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevPage={handlePrevPage}
+          onNextPage={handleNextPage}
+          totalItems={allTodos.length}
+          itemsPerPage={itemsPerPage}
+          variant='detailed'
+          className='mt-6'
+        />
       )}
 
       <div className='mt-8 flex w-full items-center justify-center'>

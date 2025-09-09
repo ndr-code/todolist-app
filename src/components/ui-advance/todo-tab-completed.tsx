@@ -3,19 +3,61 @@
 import { CheckCircle2 } from 'lucide-react';
 import React from 'react';
 
-import { useTodos } from '@/hooks/useTodos';
+import { useTodosCompleted } from '@/hooks/useTodosCompleted';
 
 import { TodoCard } from './todo-card';
+import TodosPagination from './todos-pagination';
 
-function TodoTabCompleted() {
-  const { todos, isLoading, error } = useTodos();
+interface TodoTabCompletedProps {
+  isActive?: boolean;
+}
 
-  // Filter for completed todos
-  const completedTodos = React.useMemo(() => {
-    if (!todos.data?.todos) return [];
+function TodoTabCompleted({ isActive = false }: TodoTabCompletedProps = {}) {
+  const { todos, isLoading, error, viewMode, refetch } = useTodosCompleted();
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-    return todos.data.todos.filter((todo) => todo.completed);
+  // Memoize todos data to prevent re-renders
+  const allTodos = React.useMemo(() => {
+    const todosData = todos.data?.todos || [];
+    console.log('[TodoTabCompleted] Received todos count:', todosData.length);
+    console.log('[TodoTabCompleted] Todos data:', todosData);
+    return todosData;
   }, [todos.data?.todos]);
+
+  // For pagination mode, handle client-side pagination
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(allTodos.length / itemsPerPage);
+
+  const paginatedTodos = React.useMemo(() => {
+    if (viewMode === 'scroll') {
+      // For infinite scroll, show all todos
+      return allTodos;
+    } else {
+      // For pagination, show current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      return allTodos.slice(startIndex, startIndex + itemsPerPage);
+    }
+  }, [allTodos, currentPage, viewMode]);
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(1, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+  };
+
+  // Reset page when switching view modes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [viewMode]);
+
+  // Refetch data when tab becomes active
+  React.useEffect(() => {
+    if (isActive) {
+      refetch();
+    }
+  }, [isActive, refetch]);
 
   if (isLoading) {
     return (
@@ -39,20 +81,47 @@ function TodoTabCompleted() {
         <CheckCircle2 className='text-foreground h-6 w-6' />
         <h2 className='text-foreground display-xs-bold'>Completed</h2>
         <span className='text-muted-foreground text-xs-semibold ml-2 rounded-full bg-neutral-400 px-3'>
-          {completedTodos.length}{' '}
-          {completedTodos.length === 1 ? 'item' : 'items'}
+          {allTodos.length} {allTodos.length === 1 ? 'item' : 'items'}
         </span>
       </div>
 
+      {/* Pagination controls - top */}
+      {viewMode === 'page' && (
+        <TodosPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevPage={handlePrevPage}
+          onNextPage={handleNextPage}
+          variant='detailed'
+          totalItems={allTodos.length}
+          itemsPerPage={itemsPerPage}
+          className='mb-4'
+        />
+      )}
+
       <div className='mt-4 space-y-3'>
-        {completedTodos.length === 0 ? (
+        {paginatedTodos.length === 0 ? (
           <div className='py-8 text-center'>
             <p className='text-muted-foreground'>No completed todos</p>
           </div>
         ) : (
-          completedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+          paginatedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
         )}
       </div>
+
+      {/* Pagination controls - bottom */}
+      {viewMode === 'page' && (
+        <TodosPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevPage={handlePrevPage}
+          onNextPage={handleNextPage}
+          variant='detailed'
+          totalItems={allTodos.length}
+          itemsPerPage={itemsPerPage}
+          className='border-border mt-6 border-t pt-4'
+        />
+      )}
     </div>
   );
 }

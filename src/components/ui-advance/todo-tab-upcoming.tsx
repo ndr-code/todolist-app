@@ -3,47 +3,47 @@
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import React from 'react';
 
-import { useTodos } from '@/hooks/useTodos';
+import { useTodosUpcoming } from '@/hooks/useTodosUpcoming';
 
 import { TodoCard } from './todo-card';
 import { Button } from '../ui-basic/button';
 
 function TodoTabUpcoming() {
-  const { todos, isLoading, error } = useTodos();
+  const { todos, isLoading, error, viewMode } = useTodosUpcoming();
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-  // Filter for upcoming todos (not completed and not today)
-  const upcomingTodos = React.useMemo(() => {
-    if (!todos.data?.todos) return [];
-
-    const today = new Date();
-    const todayStr = today.toDateString();
-
-    return todos.data.todos.filter((todo) => {
-      // Skip completed todos
-      if (todo.completed) return false;
-
-      try {
-        let todoDate: Date;
-
-        if (todo.date.includes('T') || todo.date.includes('-')) {
-          todoDate = new Date(todo.date);
-        } else {
-          todoDate = new Date(todo.date);
-        }
-
-        if (isNaN(todoDate.getTime())) {
-          console.warn('Invalid date format:', todo.date);
-          return false;
-        }
-
-        // Return todos that are after today
-        return todoDate.toDateString() !== todayStr && todoDate > today;
-      } catch (err) {
-        console.warn('Error parsing date:', todo.date, err);
-        return false;
-      }
-    });
+  // Memoize todos data to prevent re-renders
+  const allTodos = React.useMemo(() => {
+    return todos.data?.todos || [];
   }, [todos.data?.todos]);
+
+  // For pagination mode, handle client-side pagination
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(allTodos.length / itemsPerPage);
+
+  const paginatedTodos = React.useMemo(() => {
+    if (viewMode === 'scroll') {
+      // For infinite scroll, show all todos
+      return allTodos;
+    } else {
+      // For pagination, show current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      return allTodos.slice(startIndex, startIndex + itemsPerPage);
+    }
+  }, [allTodos, currentPage, viewMode]);
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(1, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+  };
+
+  // Reset page when switching view modes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [viewMode]);
 
   if (isLoading) {
     return (
@@ -69,8 +69,7 @@ function TodoTabUpcoming() {
             <div className='flex items-center gap-2'>
               <h2 className='text-foreground display-xs-bold'>Upcoming</h2>
               <span className='text-muted-foreground text-xs-semibold ml-2 rounded-full bg-neutral-400 px-3'>
-                {upcomingTodos.length}{' '}
-                {upcomingTodos.length === 1 ? 'item' : 'items'}
+                {allTodos.length} {allTodos.length === 1 ? 'item' : 'items'}
               </span>
             </div>
             <div className='mt-1 flex items-center gap-2'>
@@ -117,12 +116,12 @@ function TodoTabUpcoming() {
       </div>
 
       <div className='space-y-3'>
-        {upcomingTodos.length === 0 ? (
+        {paginatedTodos.length === 0 ? (
           <div className='py-8 text-center'>
             <p className='text-muted-foreground'>No upcoming todos</p>
           </div>
         ) : (
-          upcomingTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+          paginatedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
         )}
       </div>
 
