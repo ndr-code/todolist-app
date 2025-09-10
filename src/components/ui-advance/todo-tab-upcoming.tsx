@@ -53,6 +53,8 @@ function TodoTabUpcoming() {
       days.push({
         key: `${dayName}-${dayNumber}`,
         label: `${dayName} ${dayNumber}`,
+        dayName: dayName,
+        dayNumber: dayNumber,
         date: date,
         isToday: isToday,
         isSelected: isSelected || false,
@@ -176,24 +178,26 @@ function TodoTabUpcoming() {
 
   return (
     <div>
-      <div className='flex items-center justify-between'>
-        <div>
-          <div className='flex items-center gap-2'>
+      <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='flex-1'>
+          <div className='flex flex-row gap-2 sm:items-center sm:gap-2'>
             <h2 className='text-foreground display-xs-bold'>Upcoming</h2>
-            <span className='text-muted-foreground text-xs-semibold ml-2 rounded-full bg-neutral-400 px-3 py-1'>
-              {allTodos.length} Item{allTodos.length !== 1 ? 's' : ''}
-            </span>
-            {selectedDate && (
-              <button
-                onClick={clearDateSelection}
-                className='rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700 transition-colors hover:bg-blue-200'
-              >
-                All Days
-              </button>
-            )}
+            <div className='flex items-center gap-2'>
+              <span className='text-muted-foreground text-xs-semibold rounded-full bg-neutral-400 px-2 py-1 sm:px-3'>
+                {allTodos.length} Item{allTodos.length !== 1 ? 's' : ''}
+              </span>
+              {selectedDate && (
+                <button
+                  onClick={clearDateSelection}
+                  className='cursor-pointer rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700 transition-colors hover:bg-blue-200'
+                >
+                  All Days
+                </button>
+              )}
+            </div>
           </div>
           <div className='mt-1 flex items-center gap-2'>
-            <span className='text-muted-foreground text-sm'>
+            <span className='text-muted-foreground text-xs sm:text-sm'>
               {selectedDate
                 ? selectedDate.toLocaleDateString('en-US', {
                     month: 'short',
@@ -203,40 +207,40 @@ function TodoTabUpcoming() {
                   })
                 : currentMonthYear}
             </span>
-            <span className='text-muted-foreground text-sm'>▼</span>
+            <span className='text-muted-foreground text-xs sm:text-sm'>▼</span>
           </div>
         </div>
-        <div className='flex items-center gap-2'>
-          <div className='border-border bg-card flex h-9 items-center justify-around gap-1 rounded-md border px-1'>
+        <div className='flex items-center justify-center sm:justify-end'>
+          <div className='border-border bg-card flex h-8 w-full flex-row items-center justify-around gap-1 rounded-md border px-1 sm:h-9'>
             <button
-              className='hover:bg-muted cursor-pointer rounded'
+              className='hover:bg-muted flex w-full cursor-pointer justify-center rounded p-1'
               onClick={handlePrevWeek}
             >
-              <ChevronLeft className='h-6 w-6 p-1 text-neutral-900' />
+              <ChevronLeft className='h-4 w-4 text-neutral-900 sm:h-5 sm:w-5' />
             </button>
             <button
-              className='text-muted-foreground hover:bg-muted cursor-pointer rounded px-2 text-sm'
+              className='text-muted-foreground hover:bg-muted w-full cursor-pointer rounded px-1.5 text-xs sm:min-w-20 sm:px-2 sm:text-sm'
               onClick={goToToday}
             >
               This Week
             </button>
             <button
-              className='hover:bg-muted cursor-pointer rounded'
+              className='hover:bg-muted flex w-full cursor-pointer justify-center rounded p-1'
               onClick={handleNextWeek}
             >
-              <ChevronRight className='h-6 w-6 p-1 text-neutral-900' />
+              <ChevronRight className='h-4 w-4 text-neutral-900 sm:h-5 sm:w-5' />
             </button>
           </div>
         </div>
       </div>
 
       {/* Calendar Week View */}
-      <div className='mt-4 mb-4 flex gap-2'>
+      <div className='mt-3 mb-3 flex gap-1 sm:mt-4 sm:mb-4 sm:gap-2'>
         {weekDays.map((day) => (
           <div
             key={day.key}
             onClick={() => handleDateSelect(day.date)}
-            className={`relative flex-1 cursor-pointer rounded-lg p-2 text-center text-sm transition-colors ${
+            className={`relative flex-1 cursor-pointer rounded-lg p-1.5 text-center text-xs transition-colors sm:p-2 sm:text-sm ${
               day.isSelected
                 ? 'bg-blue-500 text-white'
                 : day.isToday
@@ -244,15 +248,27 @@ function TodoTabUpcoming() {
                   : 'text-muted-foreground hover:bg-muted'
             }`}
           >
-            {day.label}
+            {/* Mobile: Vertical layout */}
+            <div className='flex flex-col items-center justify-center gap-0.5 sm:hidden'>
+              <div className='text-xs leading-none font-medium'>
+                {day.dayName}
+              </div>
+              <div className='text-xs leading-none font-bold'>
+                {day.dayNumber}
+              </div>
+            </div>
+
+            {/* Desktop: Horizontal layout */}
+            <div className='hidden truncate sm:block'>{day.label}</div>
+
             {day.hasTodos && !day.isSelected && !day.isToday && (
-              <div className='absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-500'></div>
+              <div className='absolute top-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-blue-500 sm:top-1 sm:right-1 sm:h-2 sm:w-2'></div>
             )}
           </div>
         ))}
       </div>
 
-      <div className='mt-4 space-y-3'>
+      <div className='mt-3 space-y-3 sm:mt-4'>
         {/* Pagination Controls - Top */}
         {viewMode === 'page' && (
           <TodosPagination
@@ -260,15 +276,15 @@ function TodoTabUpcoming() {
             totalPages={totalPages}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
-            className='mb-4'
+            className='mb-3 sm:mb-4'
           />
         )}
       </div>
 
-      <div className='space-y-3'>
+      <div className='space-y-2 sm:space-y-3'>
         {paginatedTodos.length === 0 ? (
-          <div className='py-8 text-center'>
-            <p className='text-muted-foreground'>
+          <div className='py-6 text-center sm:py-8'>
+            <p className='text-muted-foreground text-sm sm:text-base'>
               {selectedDate
                 ? `No todos for ${selectedDate.toLocaleDateString('en-US', {
                     weekday: 'long',
@@ -291,26 +307,26 @@ function TodoTabUpcoming() {
         )}
       </div>
 
-      <div className='mt-4 space-y-3'>
-        {/* Pagination Controls - Top */}
+      <div className='mt-3 space-y-3 sm:mt-4'>
+        {/* Pagination Controls - Bottom */}
         {viewMode === 'page' && (
           <TodosPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
-            className='mb-4'
+            className='mb-3 sm:mb-4'
           />
         )}
       </div>
 
-      <div className='mt-8 flex w-full items-center justify-center'>
+      <div className='mt-6 flex w-full items-center justify-center sm:mt-8'>
         <AddTodoButton
           defaultDate={
             selectedDate || new Date(Date.now() + 24 * 60 * 60 * 1000)
           }
           size='default'
-          className='h-12 w-75'
+          className='h-10 w-full max-w-xs sm:h-12 sm:w-75'
         />
       </div>
     </div>

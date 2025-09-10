@@ -22,11 +22,11 @@ function ViewConfigButton() {
   return (
     <Button
       variant={showViewConfig ? 'default' : 'outline'}
-      className='h-12 gap-2'
+      className='h-12 min-w-12 gap-1 px-3 text-xs sm:gap-2 sm:px-4 sm:text-sm'
       onClick={handleToggle}
     >
-      <Settings2 className='h-4 w-4' />
-      View Config
+      <Settings2 className='h-3 w-3 sm:h-4 sm:w-4' />
+      <span className='hidden sm:inline'>Config</span>
     </Button>
   );
 }

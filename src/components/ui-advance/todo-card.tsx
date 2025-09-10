@@ -66,40 +66,44 @@ export const TodoCard = ({ todo }: { todo: TodoItem }) => {
 
   return (
     <>
-      <Card className='!bg-card !border-border hover:!bg-muted/30 !flex !flex-row !items-center !gap-3 !rounded-2xl !border !p-4 !transition-all !duration-300 !ease-in-out hover:!shadow-md'>
-        <Checkbox
-          checked={todo.completed}
-          onCheckedChange={handleCheckboxChange}
-          disabled={updateTodoMutation.isPending}
-          className='mr-2 h-6 w-6 cursor-pointer'
-        />
-        <div className='flex-1'>
-          <h3
-            className={`font-medium ${todo.completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}
-          >
-            {todo.title}
-          </h3>
-          <div className='mt-1 flex items-center gap-2'>
-            <span className='text-muted-foreground text-sm'>
-              {new Date(todo.date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </span>
-            <span
-              className={`mx-4 flex h-6 items-center justify-center rounded-md px-2 py-0.5 text-xs font-medium ${getPriorityColor(todo.priority)}`}
+      <Card className='!bg-card !border-border hover:!bg-muted/30 !flex !flex-row justify-between !gap-3 !rounded-2xl !border !p-3 !transition-all !duration-300 !ease-in-out hover:!shadow-md sm:!items-center sm:!p-4'>
+        <div className='flex items-center gap-3 sm:gap-0'>
+          <Checkbox
+            checked={todo.completed}
+            onCheckedChange={handleCheckboxChange}
+            disabled={updateTodoMutation.isPending}
+            className='h-5 w-5 cursor-pointer sm:mr-2 sm:h-6 sm:w-6'
+          />
+          <div className='flex-1 sm:flex-1'>
+            <h3
+              className={`text-sm-semibold sm:text-base ${todo.completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}
             >
-              {getPriorityLabel(todo.priority)}
-            </span>
+              {todo.title}
+            </h3>
+            <div className='mt-1 flex flex-row items-center gap-2'>
+              <span className='text-muted-foreground text-xs sm:text-sm'>
+                {new Date(todo.date).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </span>
+              <span
+                className={`mx-0 flex h-5 w-fit items-center justify-center rounded-md px-2 py-0.5 text-xs font-medium sm:mx-4 sm:h-6 ${getPriorityColor(todo.priority)}`}
+              >
+                {getPriorityLabel(todo.priority)}
+              </span>
+            </div>
           </div>
         </div>
-        <TodoActionsDropdown
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          disabled={deleteTodoMutation.isPending}
-          isDeleting={deleteTodoMutation.isPending}
-        />
+        <div className='flex justify-start'>
+          <TodoActionsDropdown
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            disabled={deleteTodoMutation.isPending}
+            isDeleting={deleteTodoMutation.isPending}
+          />
+        </div>
       </Card>
 
       <DeleteConfirmDialog

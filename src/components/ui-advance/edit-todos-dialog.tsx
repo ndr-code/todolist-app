@@ -111,11 +111,14 @@ export function EditTodosDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='mx-4 max-w-[90vw] sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Edit Task</DialogTitle>
+          <DialogTitle className='text-lg sm:text-xl'>Edit Task</DialogTitle>
         </DialogHeader>
-        <div className='grid gap-4 py-4' onKeyDown={handleKeyDown}>
+        <div
+          className='grid gap-3 py-3 sm:gap-4 sm:py-4'
+          onKeyDown={handleKeyDown}
+        >
           {/* Task Input */}
           <div className='grid gap-2'>
             <Input
@@ -123,6 +126,7 @@ export function EditTodosDialog({
               value={task}
               onChange={(e) => setTask(e.target.value)}
               autoFocus
+              className='text-sm sm:text-base'
             />
           </div>
 
@@ -134,7 +138,7 @@ export function EditTodosDialog({
                 setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT')
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className='text-sm sm:text-base'>
                 <SelectValue placeholder='Select priority' />
               </SelectTrigger>
               <SelectContent>
@@ -153,9 +157,9 @@ export function EditTodosDialog({
                 <Button
                   variant='outline'
                   data-empty={!date}
-                  className='data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal'
+                  className='data-[empty=true]:text-muted-foreground w-full justify-start text-left text-sm font-normal sm:text-base'
                 >
-                  <CalendarIcon className='mr-2 h-4 w-4' />
+                  <CalendarIcon className='mr-2 h-3 w-3 sm:h-4 sm:w-4' />
                   {date ? format(date, 'PPP') : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -171,11 +175,11 @@ export function EditTodosDialog({
           </div>
 
           {/* Save Button */}
-          <div className='flex gap-2'>
+          <div className='flex flex-col gap-2 sm:flex-row'>
             <Button
               variant='outline'
               onClick={handleCancel}
-              className='flex-1'
+              className='flex-1 text-sm sm:text-base'
               disabled={updateTodoMutation.isPending}
             >
               Cancel
@@ -183,7 +187,7 @@ export function EditTodosDialog({
             <Button
               onClick={handleSave}
               disabled={!isFormValid || updateTodoMutation.isPending}
-              className='flex-1'
+              className='flex-1 text-sm sm:text-base'
             >
               {updateTodoMutation.isPending ? 'Updating...' : 'Update'}
             </Button>

@@ -36,31 +36,35 @@ function TodosPagination({
 
   if (variant === 'detailed') {
     return (
-      <div className={`flex items-center justify-between ${className}`}>
-        <span className='text-muted-foreground text-sm'>
+      <div
+        className={`flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between ${className}`}
+      >
+        <span className='text-muted-foreground text-center text-xs sm:text-left sm:text-sm'>
           Showing {Math.min(startItem, totalItems)}-{endItem} of {totalItems}{' '}
           {totalItems === 1 ? 'item' : 'items'}
         </span>
-        <div className='flex gap-2'>
+        <div className='flex justify-center gap-1 sm:gap-2'>
           <Button
             variant='outline'
             size='sm'
             onClick={onPrevPage}
             disabled={currentPage === 1}
-            className='flex items-center gap-1'
+            className='flex h-8 items-center gap-1 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
           >
-            <ChevronLeft className='h-4 w-4' />
-            Previous
+            <ChevronLeft className='h-3 w-3 sm:h-4 sm:w-4' />
+            <span className='hidden sm:inline'>Previous</span>
+            <span className='sm:hidden'>Prev</span>
           </Button>
           <Button
             variant='outline'
             size='sm'
             onClick={onNextPage}
             disabled={currentPage === totalPages}
-            className='flex items-center gap-1'
+            className='flex h-8 items-center gap-1 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
           >
-            Next
-            <ChevronRight className='h-4 w-4' />
+            <span className='hidden sm:inline'>Next</span>
+            <span className='sm:hidden'>Next</span>
+            <ChevronRight className='h-3 w-3 sm:h-4 sm:w-4' />
           </Button>
         </div>
       </div>
@@ -68,20 +72,28 @@ function TodosPagination({
   }
 
   return (
-    <div className={`flex items-center justify-center gap-2 ${className}`}>
+    <div
+      className={`flex items-center justify-center gap-1 sm:gap-2 ${className}`}
+    >
       <Button
         variant='outline'
         size='sm'
         onClick={onPrevPage}
         disabled={currentPage === 1}
-        className='flex items-center gap-1'
+        className='flex h-8 items-center gap-1 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
       >
-        <ChevronLeft className='h-4 w-4' />
-        Previous
+        <ChevronLeft className='h-3 w-3 sm:h-4 sm:w-4' />
+        <span className='hidden sm:inline'>Previous</span>
+        <span className='sm:hidden'>Prev</span>
       </Button>
 
-      <span className='text-muted-foreground px-3 text-sm'>
-        Page {currentPage} of {totalPages}
+      <span className='text-muted-foreground px-2 text-xs sm:px-3 sm:text-sm'>
+        <span className='hidden sm:inline'>
+          Page {currentPage} of {totalPages}
+        </span>
+        <span className='sm:hidden'>
+          {currentPage}/{totalPages}
+        </span>
       </span>
 
       <Button
@@ -89,10 +101,11 @@ function TodosPagination({
         size='sm'
         onClick={onNextPage}
         disabled={currentPage === totalPages}
-        className='flex items-center gap-1'
+        className='flex h-8 items-center gap-1 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
       >
-        Next
-        <ChevronRight className='h-4 w-4' />
+        <span className='hidden sm:inline'>Next</span>
+        <span className='sm:hidden'>Next</span>
+        <ChevronRight className='h-3 w-3 sm:h-4 sm:w-4' />
       </Button>
     </div>
   );

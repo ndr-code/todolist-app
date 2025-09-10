@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -216,6 +217,7 @@
 /* Design System Typography */
 * {
   font-family:
+    'Inter',
     'SF Pro',
     system-ui,
     -apple-system,
@@ -412,10 +414,91 @@
 }
 
 .display-sm-bold {
-  font-size: 1.75rem;
-  line-height: 2.375rem;
+  font-size: 1.75rem; /* 28px */
+  line-height: 2.375rem; /* 38px */
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+/* Responsive Display Classes for Mobile */
+@media (max-width: 639px) {
+  .display-sm-bold {
+    font-size: 1.2rem;
+    line-height: 1.75rem; /* 28px */
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .display-sm {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+    font-weight: 400;
+  }
+
+  .display-xs-bold {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.625rem; /* 26px */
+    font-weight: 700;
+  }
+
+  .display-xs {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.625rem; /* 26px */
+    font-weight: 400;
+  }
+
+  .text-xl {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .text-xl-bold {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+    font-weight: 700;
+  }
+
+  .text-lg {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+  }
+
+  .text-lg-bold {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+    font-weight: 700;
+  }
+
+  .text-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+  }
+
+  .text-md-bold {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+    font-weight: 700;
+  }
+}
+
+/* Responsive Display Classes for Tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .display-sm-bold {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Responsive Display Classes for Desktop */
+@media (min-width: 1024px) {
+  .display-sm-bold {
+    font-size: 2rem; /* 32px */
+    line-height: 2.5rem; /* 40px */
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
 }
 
 .display-sm-extrabold {

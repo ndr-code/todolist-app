@@ -25,19 +25,20 @@ function ScrollToggleButton() {
       variant='outline'
       size='sm'
       onClick={handleToggle}
-      className='flex h-12 min-w-25 items-center justify-around gap-2 rounded-xl px-3'
+      className='flex h-12 w-full min-w-20 items-center justify-center gap-1 rounded-xl px-2 text-xs sm:min-w-25 sm:gap-2 sm:px-3 sm:text-sm'
       title={
         isPagination ? 'Switch to Infinite Scroll' : 'Switch to Pagination'
       }
     >
       {isPagination ? (
         <>
-          <MoreHorizontal className='h-4 w-4' />
-          <span>Pages</span>
+          <MoreHorizontal className='h-3 w-3 sm:h-4 sm:w-4' />
+          <span className='hidden sm:inline'>Pages</span>
+          <span className='sm:hidden'>Page</span>
         </>
       ) : (
         <>
-          <List className='h-4 w-4' />
+          <List className='h-3 w-3 sm:h-4 sm:w-4' />
           <span>Scroll</span>
         </>
       )}

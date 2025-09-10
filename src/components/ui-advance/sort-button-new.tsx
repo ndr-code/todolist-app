@@ -29,9 +29,10 @@ export function SortButton() {
   };
 
   const getSortIcon = () => {
-    if (order === 'asc') return <ArrowUp className='h-4 w-4' />;
-    if (order === 'desc') return <ArrowDown className='h-4 w-4' />;
-    return <ArrowUpDown className='h-4 w-4' />;
+    if (order === 'asc') return <ArrowUp className='h-3 w-3 sm:h-4 sm:w-4' />;
+    if (order === 'desc')
+      return <ArrowDown className='h-3 w-3 sm:h-4 sm:w-4' />;
+    return <ArrowUpDown className='h-3 w-3 sm:h-4 sm:w-4' />;
   };
 
   return (
@@ -39,10 +40,13 @@ export function SortButton() {
       <DropdownMenuTrigger asChild>
         <Button
           variant='outline'
-          className='flex h-12 min-w-25 justify-center gap-2'
+          className='flex h-12 w-full min-w-20 justify-center gap-1 px-2 text-xs sm:min-w-25 sm:gap-2 sm:px-4 sm:text-sm'
         >
           {getSortIcon()}
-          <span>{sort === 'date' ? 'Date' : 'Priority'}</span>
+          <span className='hidden sm:inline'>
+            {sort === 'date' ? 'Date' : 'Priority'}
+          </span>
+          <span className='sm:hidden'>{sort === 'date' ? 'Date' : 'Prio'}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-48'>

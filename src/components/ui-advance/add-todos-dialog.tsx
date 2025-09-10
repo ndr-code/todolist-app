@@ -38,9 +38,9 @@ interface AddTodosDialogProps {
 export function AddTodosDialog({ children, defaultDate }: AddTodosDialogProps) {
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState('');
-  const [priority, setPriority] = React.useState<
-    'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
-  >('MEDIUM');
+  const [priority, setPriority] = React.useState<'LOW' | 'MEDIUM' | 'HIGH'>(
+    'MEDIUM'
+  );
   const [date, setDate] = React.useState<Date | undefined>(defaultDate);
 
   const createTodoMutation = useCreateTodo();
@@ -48,12 +48,9 @@ export function AddTodosDialog({ children, defaultDate }: AddTodosDialogProps) {
   const handleSave = async () => {
     if (!isFormValid) return;
 
-    // Map URGENT to HIGH for API compatibility
-    const apiPriority = priority === 'URGENT' ? 'HIGH' : priority;
-
     const newTodo: NewTodo = {
       title: task.trim(),
-      priority: apiPriority as 'LOW' | 'MEDIUM' | 'HIGH',
+      priority: priority as 'LOW' | 'MEDIUM' | 'HIGH',
       date: date?.toISOString(),
       completed: false,
     };
@@ -113,7 +110,7 @@ export function AddTodosDialog({ children, defaultDate }: AddTodosDialogProps) {
             <Select
               value={priority}
               onValueChange={(value) =>
-                setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT')
+                setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH')
               }
             >
               <SelectTrigger>
@@ -123,7 +120,6 @@ export function AddTodosDialog({ children, defaultDate }: AddTodosDialogProps) {
                 <SelectItem value='LOW'>Low</SelectItem>
                 <SelectItem value='MEDIUM'>Medium</SelectItem>
                 <SelectItem value='HIGH'>High</SelectItem>
-                <SelectItem value='URGENT'>Urgent</SelectItem>
               </SelectContent>
             </Select>
           </div>

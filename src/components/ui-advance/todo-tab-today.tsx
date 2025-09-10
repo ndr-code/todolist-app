@@ -117,7 +117,7 @@ function TodoTabToday() {
         <AddTodoButton
           defaultDate={new Date()}
           size='default'
-          className='h-12 w-75'
+          className='h-12 w-full sm:max-w-75'
         />
       </div>
     </div>
