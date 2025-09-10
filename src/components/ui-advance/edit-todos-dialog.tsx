@@ -109,7 +109,7 @@ export function EditTodosDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Edit Task</DialogTitle>
+          <DialogTitle className='text-foreground'>Edit Task</DialogTitle>
         </DialogHeader>
         <div className='grid gap-4 py-4' onKeyDown={handleKeyDown}>
           {/* Task Input */}
@@ -120,7 +120,7 @@ export function EditTodosDialog({
               onChange={(e) => setTask(e.target.value)}
               autoFocus
               rows={2}
-              className='border-input ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full resize-none rounded-md border bg-transparent px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+              className='border-input bg-background text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full resize-none rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
             />
           </div>
 
@@ -132,7 +132,7 @@ export function EditTodosDialog({
                 setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH')
               }
             >
-              <SelectTrigger className='h-12 w-full rounded-xl'>
+              <SelectTrigger className='text-foreground h-12 w-full rounded-xl'>
                 <SelectValue placeholder='Select priority' />
               </SelectTrigger>
               <SelectContent>
