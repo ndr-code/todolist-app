@@ -3,9 +3,11 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useTodosUpcoming } from '@/hooks/useTodosUpcoming';
 
 import { AddTodoButton } from './add-todo-button';
+import { InfiniteScrollSentinel } from './infinite-scroll-sentinel';
 import { TodoCard, TodoCardSkeleton } from './todo-card';
 import TodosPagination from './todos-pagination';
 
@@ -87,20 +89,29 @@ function TodoTabUpcoming() {
     });
   }, [todos.data?.todos, selectedDate]);
 
+  // Infinite scroll hook for scroll mode
+  const { visibleItems, hasMore, isLoadingMore, sentinelRef } =
+    useInfiniteScroll({
+      items: allTodos,
+      initialLoad: 10,
+      loadIncrement: 5,
+      enabled: viewMode === 'scroll',
+    });
+
   // For pagination mode, handle client-side pagination
   const itemsPerPage = 5;
   const totalPages = Math.ceil(allTodos.length / itemsPerPage);
 
-  const paginatedTodos = React.useMemo(() => {
+  const displayTodos = React.useMemo(() => {
     if (viewMode === 'scroll') {
-      // For infinite scroll, show all todos
-      return allTodos;
+      // For infinite scroll, show visible items from hook
+      return visibleItems;
     } else {
       // For pagination, show current page
       const startIndex = (currentPage - 1) * itemsPerPage;
       return allTodos.slice(startIndex, startIndex + itemsPerPage);
     }
-  }, [allTodos, currentPage, viewMode]);
+  }, [allTodos, currentPage, viewMode, visibleItems]);
 
   const handlePrevPage = () => {
     setCurrentPage((prev) => Math.max(1, prev - 1));
@@ -313,7 +324,7 @@ function TodoTabUpcoming() {
       </div>
 
       <div className='space-y-2 sm:space-y-3'>
-        {paginatedTodos.length === 0 ? (
+        {displayTodos.length === 0 ? (
           <div className='py-6 text-center sm:py-8'>
             <p className='text-muted-foreground text-sm sm:text-base'>
               {selectedDate
@@ -334,7 +345,21 @@ function TodoTabUpcoming() {
             )}
           </div>
         ) : (
-          paginatedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+          <>
+            {displayTodos.map((todo) => (
+              <TodoCard key={todo.id} todo={todo} />
+            ))}
+
+            {/* Infinite Scroll Sentinel for scroll mode */}
+            {viewMode === 'scroll' && (
+              <InfiniteScrollSentinel
+                ref={sentinelRef}
+                hasMore={hasMore}
+                isLoadingMore={isLoadingMore}
+                loadingItemsCount={3}
+              />
+            )}
+          </>
         )}
       </div>
 

@@ -62,7 +62,7 @@ export function FilterButton() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=''>
+      <DropdownMenuContent className='w-56 md:w-64' align='end' forceMount>
         <DropdownMenuLabel>Filter Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
