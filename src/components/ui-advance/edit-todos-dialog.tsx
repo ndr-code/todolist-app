@@ -12,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui-basic/dialog';
-import { Input } from '@/components/ui-basic/input';
 import {
   Popover,
   PopoverContent,
@@ -41,9 +40,9 @@ export function EditTodosDialog({
   onOpenChange,
 }: EditTodosDialogProps) {
   const [task, setTask] = React.useState(todo.title);
-  const [priority, setPriority] = React.useState<
-    'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
-  >(todo.priority === 'HIGH' ? 'URGENT' : todo.priority);
+  const [priority, setPriority] = React.useState<'LOW' | 'MEDIUM' | 'HIGH'>(
+    todo.priority
+  );
   const [date, setDate] = React.useState<Date | undefined>(new Date(todo.date));
 
   const updateTodoMutation = useUpdateTodo();
@@ -52,7 +51,7 @@ export function EditTodosDialog({
   React.useEffect(() => {
     if (open) {
       setTask(todo.title);
-      setPriority(todo.priority === 'HIGH' ? 'URGENT' : todo.priority);
+      setPriority(todo.priority);
       setDate(new Date(todo.date));
     }
   }, [open, todo]);
@@ -61,7 +60,7 @@ export function EditTodosDialog({
   React.useEffect(() => {
     if (open) {
       setTask(todo.title);
-      setPriority(todo.priority === 'HIGH' ? 'URGENT' : todo.priority);
+      setPriority(todo.priority);
       setDate(new Date(todo.date));
     }
   }, [open, todo]);
@@ -69,12 +68,9 @@ export function EditTodosDialog({
   const handleSave = async () => {
     if (!isFormValid) return;
 
-    // Map URGENT to HIGH for API compatibility
-    const apiPriority = priority === 'URGENT' ? 'HIGH' : priority;
-
     const updates: Partial<Todo> = {
       title: task.trim(),
-      priority: apiPriority as 'LOW' | 'MEDIUM' | 'HIGH',
+      priority: priority,
       date: date?.toISOString(),
     };
 
@@ -94,7 +90,7 @@ export function EditTodosDialog({
   const handleCancel = () => {
     // Reset form when canceling
     setTask(todo.title);
-    setPriority(todo.priority === 'HIGH' ? 'URGENT' : todo.priority);
+    setPriority(todo.priority);
     setDate(new Date(todo.date));
     onOpenChange(false);
   };
@@ -111,22 +107,20 @@ export function EditTodosDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='mx-4 max-w-[90vw] sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle className='text-lg sm:text-xl'>Edit Task</DialogTitle>
+          <DialogTitle>Edit Task</DialogTitle>
         </DialogHeader>
-        <div
-          className='grid gap-3 py-3 sm:gap-4 sm:py-4'
-          onKeyDown={handleKeyDown}
-        >
+        <div className='grid gap-4 py-4' onKeyDown={handleKeyDown}>
           {/* Task Input */}
           <div className='grid gap-2'>
-            <Input
+            <textarea
               placeholder='Enter your task'
               value={task}
               onChange={(e) => setTask(e.target.value)}
               autoFocus
-              className='text-sm sm:text-base'
+              rows={2}
+              className='border-input ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full resize-none rounded-md border bg-transparent px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
             />
           </div>
 
@@ -135,17 +129,16 @@ export function EditTodosDialog({
             <Select
               value={priority}
               onValueChange={(value) =>
-                setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT')
+                setPriority(value as 'LOW' | 'MEDIUM' | 'HIGH')
               }
             >
-              <SelectTrigger className='text-sm sm:text-base'>
+              <SelectTrigger className='h-12 w-full rounded-xl'>
                 <SelectValue placeholder='Select priority' />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='LOW'>Low</SelectItem>
                 <SelectItem value='MEDIUM'>Medium</SelectItem>
                 <SelectItem value='HIGH'>High</SelectItem>
-                <SelectItem value='URGENT'>Urgent</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -157,9 +150,9 @@ export function EditTodosDialog({
                 <Button
                   variant='outline'
                   data-empty={!date}
-                  className='data-[empty=true]:text-muted-foreground w-full justify-start text-left text-sm font-normal sm:text-base'
+                  className='data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal'
                 >
-                  <CalendarIcon className='mr-2 h-3 w-3 sm:h-4 sm:w-4' />
+                  <CalendarIcon className='mr-2 h-4 w-4' />
                   {date ? format(date, 'PPP') : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -175,11 +168,11 @@ export function EditTodosDialog({
           </div>
 
           {/* Save Button */}
-          <div className='flex flex-col gap-2 sm:flex-row'>
+          <div className='flex gap-2'>
             <Button
               variant='outline'
               onClick={handleCancel}
-              className='flex-1 text-sm sm:text-base'
+              className='flex-1'
               disabled={updateTodoMutation.isPending}
             >
               Cancel
@@ -187,7 +180,7 @@ export function EditTodosDialog({
             <Button
               onClick={handleSave}
               disabled={!isFormValid || updateTodoMutation.isPending}
-              className='flex-1 text-sm sm:text-base'
+              className='flex-1'
             >
               {updateTodoMutation.isPending ? 'Updating...' : 'Update'}
             </Button>
