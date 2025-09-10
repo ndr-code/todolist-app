@@ -92,9 +92,6 @@ function TodoTabCompleted({ isActive = false }: TodoTabCompletedProps = {}) {
           totalPages={totalPages}
           onPrevPage={handlePrevPage}
           onNextPage={handleNextPage}
-          variant='detailed'
-          totalItems={allTodos.length}
-          itemsPerPage={itemsPerPage}
           className='mb-4'
         />
       )}
@@ -116,10 +113,7 @@ function TodoTabCompleted({ isActive = false }: TodoTabCompletedProps = {}) {
           totalPages={totalPages}
           onPrevPage={handlePrevPage}
           onNextPage={handleNextPage}
-          variant='detailed'
-          totalItems={allTodos.length}
-          itemsPerPage={itemsPerPage}
-          className='border-border mt-6 border-t pt-4'
+          className='mt-4 mb-4'
         />
       )}
     </div>

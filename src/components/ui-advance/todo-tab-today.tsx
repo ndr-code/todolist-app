@@ -1,13 +1,12 @@
 'use client';
 
-import { Plus } from 'lucide-react';
 import React from 'react';
 
 import { useTodosToday } from '@/hooks/useTodosToday';
 
+import { AddTodoButton } from './add-todo-button';
 import { TodoCard } from './todo-card';
 import TodosPagination from './todos-pagination';
-import { Button } from '../ui-basic/button';
 
 function TodoTabToday() {
   const { todos, isLoading, error, viewMode } = useTodosToday();
@@ -110,18 +109,16 @@ function TodoTabToday() {
           totalPages={totalPages}
           onPrevPage={handlePrevPage}
           onNextPage={handleNextPage}
-          totalItems={allTodos.length}
-          itemsPerPage={itemsPerPage}
-          variant='detailed'
-          className='mt-6'
+          className='mt-4 mb-4'
         />
       )}
 
       <div className='mt-8 flex w-full items-center justify-center'>
-        <Button className='h-12 w-75 gap-2'>
-          <Plus className='h-4 w-4' />
-          Add Task
-        </Button>
+        <AddTodoButton
+          defaultDate={new Date()}
+          size='default'
+          className='h-12 w-75'
+        />
       </div>
     </div>
   );
