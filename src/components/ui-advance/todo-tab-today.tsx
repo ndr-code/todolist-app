@@ -5,7 +5,7 @@ import React from 'react';
 import { useTodosToday } from '@/hooks/useTodosToday';
 
 import { AddTodoButton } from './add-todo-button';
-import { TodoCard } from './todo-card';
+import { TodoCard, TodoCardSkeleton } from './todo-card';
 import TodosPagination from './todos-pagination';
 
 function TodoTabToday() {
@@ -47,8 +47,23 @@ function TodoTabToday() {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center py-8'>
-        <div className='text-muted-foreground'>Loading...</div>
+      <div>
+        <div className='flex items-center justify-between'>
+          <div>
+            <div className='flex items-center gap-2'>
+              <h2 className='text-foreground display-xs-bold'>Today</h2>
+              <div className='bg-muted h-6 w-16 animate-pulse rounded-full'></div>
+            </div>
+            <div className='bg-muted h-4 w-24 animate-pulse rounded'></div>
+          </div>
+        </div>
+
+        <div className='mt-4 space-y-3 sm:mt-6 sm:space-y-4'>
+          {/* Show skeleton cards */}
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TodoCardSkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }

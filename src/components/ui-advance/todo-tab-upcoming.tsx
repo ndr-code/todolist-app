@@ -6,7 +6,7 @@ import React from 'react';
 import { useTodosUpcoming } from '@/hooks/useTodosUpcoming';
 
 import { AddTodoButton } from './add-todo-button';
-import { TodoCard } from './todo-card';
+import { TodoCard, TodoCardSkeleton } from './todo-card';
 import TodosPagination from './todos-pagination';
 
 function TodoTabUpcoming() {
@@ -162,8 +162,39 @@ function TodoTabUpcoming() {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center py-8'>
-        <div className='text-muted-foreground'>Loading...</div>
+      <div>
+        {/* Header skeleton */}
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+          <div className='flex-1'>
+            <div className='flex flex-row gap-2 sm:items-center sm:gap-2'>
+              <h2 className='text-foreground display-xs-bold'>Upcoming</h2>
+              <div className='bg-muted h-6 w-16 animate-pulse rounded-full'></div>
+            </div>
+            <div className='bg-muted mt-1 h-4 w-32 animate-pulse rounded'></div>
+          </div>
+          <div className='flex items-center justify-center sm:justify-end'>
+            <div className='bg-muted h-8 w-32 animate-pulse rounded-md sm:h-9'></div>
+          </div>
+        </div>
+
+        {/* Calendar skeleton */}
+        <div className='mt-3 mb-3 flex gap-1 sm:mt-4 sm:mb-4 sm:gap-2'>
+          {Array.from({ length: 7 }).map((_, index) => (
+            <div
+              key={index}
+              className='relative flex-1 rounded-lg p-1.5 sm:p-2'
+            >
+              <div className='bg-muted h-8 w-full animate-pulse rounded sm:h-10'></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Cards skeleton */}
+        <div className='space-y-2 sm:space-y-3'>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TodoCardSkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }

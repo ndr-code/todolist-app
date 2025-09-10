@@ -30,7 +30,7 @@ export function DeleteConfirmDialog({
   description,
   isLoading = false,
 }: DeleteConfirmDialogProps) {
-  const defaultDescription = `This action cannot be undone. This will permanently delete the task &ldquo;${title}&rdquo;.`;
+  const defaultDescription = `This action cannot be undone.`;
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -45,7 +45,7 @@ export function DeleteConfirmDialog({
           <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90 text-white'
             disabled={isLoading}
           >
             {isLoading ? 'Deleting...' : 'Delete'}

@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useTodosCompleted } from '@/hooks/useTodosCompleted';
 
-import { TodoCard } from './todo-card';
+import { TodoCard, TodoCardSkeleton } from './todo-card';
 import TodosPagination from './todos-pagination';
 
 interface TodoTabCompletedProps {
@@ -61,8 +61,20 @@ function TodoTabCompleted({ isActive = false }: TodoTabCompletedProps = {}) {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center py-8'>
-        <div className='text-muted-foreground'>Loading...</div>
+      <div>
+        {/* Header skeleton */}
+        <div className='mb-4 flex items-center gap-2'>
+          <div className='bg-muted h-6 w-6 animate-pulse rounded'></div>
+          <h2 className='text-foreground display-xs-bold'>Completed Tasks</h2>
+          <div className='bg-muted h-6 w-16 animate-pulse rounded-full'></div>
+        </div>
+
+        {/* Cards skeleton */}
+        <div className='space-y-2 sm:space-y-3'>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TodoCardSkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }

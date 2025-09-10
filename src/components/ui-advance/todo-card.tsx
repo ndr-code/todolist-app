@@ -9,6 +9,7 @@ import { TodoItem } from '@/types/todoItem';
 import { DeleteConfirmDialog } from './delete-confirm-dialog';
 import { EditTodosDialog } from './edit-todos-dialog';
 import { TodoActionsDropdown } from './todo-actions-dropdown';
+import { TodoCardSkeleton } from './todo-card-skeleton';
 import { Card } from '../ui-basic/card';
 import { Checkbox } from '../ui-basic/checkbox';
 
@@ -122,3 +123,6 @@ export const TodoCard = ({ todo }: { todo: TodoItem }) => {
     </>
   );
 };
+
+// Export skeleton untuk digunakan di komponen lain
+export { TodoCardSkeleton };
