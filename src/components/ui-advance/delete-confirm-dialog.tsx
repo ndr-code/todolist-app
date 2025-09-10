@@ -26,7 +26,7 @@ export function DeleteConfirmDialog({
   open,
   onOpenChange,
   onConfirm,
-  title,
+
   description,
   isLoading = false,
 }: DeleteConfirmDialogProps) {
